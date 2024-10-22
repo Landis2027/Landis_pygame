@@ -3,9 +3,33 @@ import pygame
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+
+WIDTH = 1080
+HEIGHT = 700
+
+screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
 running = True
+
+# BUILD THE BACKGROUND WITH TILES
+background = pygame.Surface((WIDTH,HEIGHT))
+background.fill((255,0,0))
+
+# load tile images to variables
+grass = pygame.image.load('assets/tileGrass1.png')     # tileGrass1
+
+# get to the tile_size
+TILE_SIZE = grass.get_width()
+
+# loop over x direction
+for x in range(0,WIDTH,TILE_SIZE):
+    # loop over y direction
+    for y in range(0,HEIGHT, TILE_SIZE):
+        # blit the tile to our BG
+        background.blit(grass, (x,y))
+        
+        
+
 
 while running:
     # poll for events
@@ -14,8 +38,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+    # Blit the background to the screen
+    screen.blit(background,(0,0))
 
     # RENDER YOUR GAME HERE
 
