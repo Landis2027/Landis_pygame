@@ -9,6 +9,8 @@ def build_background(WIDTH, HEIGHT):
     # load tile images to variables
     grass = pygame.image.load('assets/tileGrass1.png')     
     n_road = pygame.image.load('assets/tileGrass_roadNorth.png') 
+    sand = pygame.image.load('assets/tileSand1.png')
+    sand_n_road = pygame.image.load('assets/tileSand_roadNorth.png')
     # get to the tile_size
     TILE_SIZE = grass.get_width()
 
@@ -20,4 +22,7 @@ def build_background(WIDTH, HEIGHT):
             background.blit(grass, (x,y))
             if x<TILE_SIZE:
                 background.blit(n_road, (x,y))
-return build_background
+            if x>((WIDTH//2)-64):
+                background.blit(sand, (x,y))
+  
+    return background

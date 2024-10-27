@@ -1,10 +1,12 @@
 # Example file showing a basic pygame "game loop"
 import pygame
+from helpers import build_background
+from tank import Tank
 
 # pygame setup
 pygame.init()
 
-WIDTH = 1080
+WIDTH = 1280
 HEIGHT = 700
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -12,24 +14,9 @@ clock = pygame.time.Clock()
 running = True
 
 # BUILD THE BACKGROUND WITH TILES
-background = pygame.Surface((WIDTH,HEIGHT))
-background.fill((255,0,0))
-
-# load tile images to variables
-grass = pygame.image.load('assets/tileGrass1.png')     
-n_road = pygame.image.load('assets/tileGrass_roadNorth.png') 
-# get to the tile_size
-TILE_SIZE = grass.get_width()
-
-# loop over x direction
-for x in range(0,WIDTH,TILE_SIZE):
-    # loop over y direction
-    for y in range(0,HEIGHT, TILE_SIZE):
-        # blit the tile to our BG
-        background.blit(grass, (x,y))
-        if x<TILE_SIZE:
-            background.blit(n_road, (x,y))
+background = build_background(WIDTH, HEIGHT)
         
+player1 = Tank(WIDTH//2,HEIGHT//2)
 
 
 while running:
@@ -39,13 +26,29 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_UP]:
+        player1.speed = 2  # Move forward at constant speed
+    elif keys[pygame.K_DOWN]:
+        player1.speed = -2  # Move backward at constant speed
+    else:
+        player1.speed = 0  # Stop when no key is pressed
+
+    if keys[pygame.K_LEFT]:
+        player1.turn(-2)  # Rotate left
+    if keys[pygame.K_RIGHT]:
+        player1.turn(2)   # Rotate right
+
     # Blit the background to the screen
     screen.blit(background,(0,0))
 
     # RENDER YOUR GAME HERE
+    player1.update()
+    player1.draw(screen)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
+
 
     clock.tick(60)  # limits FPS to 60
 
