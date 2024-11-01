@@ -28,9 +28,9 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player1.speed = 2  # Move forward at constant speed
+        player1.speed = 1.5  # Move forward at constant speed
     elif keys[pygame.K_s]:
-        player1.speed = -2  # Move backward at constant speed
+        player1.speed = -1.5  # Move backward at constant speed
     else:
         player1.speed = 0  # Stop when no key is pressed
 
