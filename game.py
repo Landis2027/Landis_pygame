@@ -27,16 +27,16 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP]:
+    if keys[pygame.K_w]:
         player1.speed = 2  # Move forward at constant speed
-    elif keys[pygame.K_DOWN]:
+    elif keys[pygame.K_s]:
         player1.speed = -2  # Move backward at constant speed
     else:
         player1.speed = 0  # Stop when no key is pressed
 
-    if keys[pygame.K_LEFT]:
+    if keys[pygame.K_a]:
         player1.turn(-2)  # Rotate left
-    if keys[pygame.K_RIGHT]:
+    if keys[pygame.K_d]:
         player1.turn(2)   # Rotate right
 
     # Blit the background to the screen

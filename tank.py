@@ -27,7 +27,7 @@ class Tank():
 
     def draw(self, screen):
         # Rotate the image
-        new_image = pygame.transform.rotozoom(self.image, self.theta+90, 1)  # Negative for correct rotation
+        new_image = pygame.transform.rotozoom(self.image, self.theta+90, 0.7)  # Negative for correct rotation
         rect = new_image.get_rect(center=(self.x, self.y))
         screen.blit(new_image, rect.topleft)
 
