@@ -16,7 +16,13 @@ running = True
 # BUILD THE BACKGROUND WITH TILES
 background = build_background(WIDTH, HEIGHT)
         
-player1 = Tank(WIDTH//2,HEIGHT//2)
+player1 = Tank(200, 200, WIDTH, HEIGHT, color='dark')
+enemy1 = Tank(400,400, WIDTH, HEIGHT, color='red')
+# make a sprite group
+tank_group = pygame.sprite.Group()
+# add our sprite to the sprite group
+tank_group.add(player1)
+tank_group.add(enemy1)
 
 
 while running:
@@ -26,25 +32,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player1.speed = 1.5  # Move forward at constant speed
-    elif keys[pygame.K_s]:
-        player1.speed = -1.5  # Move backward at constant speed
-    else:
-        player1.speed = 0  # Stop when no key is pressed
-
-    if keys[pygame.K_a]:
-        player1.turn(-2)  # Rotate left
-    if keys[pygame.K_d]:
-        player1.turn(2)   # Rotate right
+    tank_group.update()
+    # check for collision
+    has_collided = pygame.sprite.collide_rect(player1,enemy1)
+    
+    if has_collided:
+        player1.kill()
 
     # Blit the background to the screen
     screen.blit(background,(0,0))
 
-    # RENDER YOUR GAME HERE
-    player1.update()
-    player1.draw(screen)
+    tank_group.draw(screen)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
