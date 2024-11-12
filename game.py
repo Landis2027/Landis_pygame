@@ -16,7 +16,7 @@ running = True
 # BUILD THE BACKGROUND WITH TILES
 background = build_background(WIDTH, HEIGHT)
         
-player1 = Tank(200, 200, WIDTH, HEIGHT, color='dark')
+player1 = Tank(WIDTH/2, HEIGHT/2, WIDTH, HEIGHT, color='dark')
 enemy1 = Tank(400,400, WIDTH, HEIGHT, color='red')
 # make a sprite group
 tank_group = pygame.sprite.Group()
