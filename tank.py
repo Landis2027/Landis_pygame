@@ -44,17 +44,17 @@ class Tank(pygame.sprite.Sprite):
     def check_border(self):
         c_x, c_y = self.rect.center
 
-        if c_x > self.screen_w:  # Right border
+        if c_x > self.screen_w:  # Right wall
             self.x = self.screen_w
             self.speed = 0  # Stop movement
-        elif c_x < 0:  # Left border
+        elif c_x < 0:  # Left wall
             self.x = 0
             self.speed = 0  # Stop movement
         
-        if c_y > self.screen_h:  # Bottom border
+        if c_y > self.screen_h:  # Floor
             self.y = self.screen_h
             self.speed = 0  # Stop movement
-        elif c_y < 0:  # Top border
+        elif c_y < 0:  # Ceiling
             self.y = 0
             self.speed = 0  # Stop movement
         
