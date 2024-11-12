@@ -1,8 +1,8 @@
 from math import cos, sin, pi
 import pygame
-
+from bullet import Bullet
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, x, y, WIDTH, HEIGHT, theta=0, color='red'):
+    def __init__(self, x, y, WIDTH, HEIGHT, bullet_group, theta=0, color='red'):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
@@ -18,6 +18,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.screen_w = WIDTH
         self.screen_h = HEIGHT
+        self.bullet_group = bullet_group
         self.reverse_time = pygame.time.get_ticks()  # Initialize reverse timer in __init__
 
     def deg_to_rad(self, deg):
@@ -41,6 +42,15 @@ class Tank(pygame.sprite.Sprite):
         if keys[pygame.K_d]:
             self.theta -= 2
     
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+
+    def shoot(self):
+        # make a bullet instance
+        b = Bullet(self.x, self.y, self.theta)
+        # put the bullet in a group
+        self.bullet_group.add(b)
+        
     def check_border(self):
         c_x, c_y = self.rect.center
 
@@ -58,11 +68,6 @@ class Tank(pygame.sprite.Sprite):
             self.y = 0
             self.speed = 0  # Stop movement
         
-        # If the tank leaves the border, reverse after 500ms
-        if not pygame.Rect(0, 0, self.screen_w, self.screen_h).contains(self.rect):
-            if pygame.time.get_ticks() - self.reverse_time > 500:  # Only reverse after 500ms
-                self.speed = -0.2 * self.speed  # Reverse speed
-                self.reverse_time = pygame.time.get_ticks()  # Reset reverse time
 
     def update(self):
         if self.color =='dark':   
