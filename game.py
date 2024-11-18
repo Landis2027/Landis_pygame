@@ -27,7 +27,6 @@ enemy1 = Tank(400,400, WIDTH, HEIGHT, bullet_group, color='red')
 tank_group.add(player1)
 tank_group.add(enemy1)
 
-
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
