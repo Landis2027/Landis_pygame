@@ -4,10 +4,8 @@ from math import sin, cos, radians
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, screen, tank, x, y, theta, speed=3, WIDTH=1280, HEIGHT=700):
         pygame.sprite.Sprite.__init__(self)
-        
-        self.screen = screen  # Store screen reference (not necessary for the rect assignment, just in case)
-        self.tank = tank  # Store tank reference (if you need it for further logic)
-        
+        self.screen = screen  # Store screen reference 
+        self.tank = tank  # Store tank reference 
         self.x = x
         self.y = y
         self.speed = speed
@@ -22,7 +20,8 @@ class Bullet(pygame.sprite.Sprite):
         self.screen_width = WIDTH  # Boundaries
         self.screen_height = HEIGHT
         self.bounce_count = 0  # Ricochet counter
-
+        self.screen_rect = screen.get_rect()
+        self.mom = tank
     def update(self):
         # Calculate the change in x and y based on the current angle (theta)
         dx = self.speed * cos(radians(self.theta))

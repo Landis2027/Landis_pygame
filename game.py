@@ -48,7 +48,22 @@ while running:
     tank_group.draw(screen)
     bullet_group.draw(screen)
 
+
+# check for bullets hitting tanks
+    coll_dict = pygame.sprite.groupcollide(tank_group,bullet_group,0,0)
+    # check and see if a bullet collides with something that is not its own tank
+    for s,bs in coll_dict.items():
+        # tank is k, bullet list is v
+        # check for non empty values
+        if bs:
+            #loop over each bullet to check its tank
+            for b in bs:
+                # check if bullet.tank is the firing tank
+                if b.tank != s:
+                    # kill the tank
+                    s.kill()
     # flip() the display to put your work on screen
+
     pygame.display.flip()
 
 
