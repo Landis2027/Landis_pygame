@@ -1,4 +1,3 @@
-# Example file showing a basic pygame "game loop"
 import pygame
 from helpers import build_background
 from tank import Tank

@@ -21,7 +21,7 @@ class Bullet(pygame.sprite.Sprite):
         self.screen_height = HEIGHT
         self.bounce_count = 0  # Ricochet counter
         self.screen_rect = screen.get_rect()
-        self.mom = tank
+        self.tank = tank
     def update(self):
         # Calculate the change in x and y based on the current angle (theta)
         dx = self.speed * cos(radians(self.theta))
@@ -46,5 +46,5 @@ class Bullet(pygame.sprite.Sprite):
             self.bounce_count += 1
         
         # If the bullet has ricocheted twice, remove it
-        if self.bounce_count > 2:
+        if self.bounce_count > 1:
             self.kill()  # This removes the bullet from all sprite groups
