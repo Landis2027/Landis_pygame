@@ -20,8 +20,8 @@ background = build_background(WIDTH, HEIGHT)
 tank_group = pygame.sprite.Group()
 bullet_group = pygame.sprite.Group()
 
-player1 = Tank(WIDTH/2, HEIGHT/2, WIDTH, HEIGHT, bullet_group, color='dark')
-enemy1 = Tank(400,400, WIDTH, HEIGHT, bullet_group, color='red')
+player1 = Tank(screen, WIDTH/2, HEIGHT/2, WIDTH, HEIGHT, bullet_group, color='dark')
+enemy1 = Tank(screen, 400,400, WIDTH, HEIGHT, bullet_group, color='red')
 
 # add our sprite to the sprite group
 tank_group.add(player1)

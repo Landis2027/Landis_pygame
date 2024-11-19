@@ -2,12 +2,13 @@ from math import cos, sin, pi
 import pygame
 from bullet import Bullet
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, x, y, WIDTH, HEIGHT, bullet_group, theta=0, color='red'):
+    def __init__(self, screen, x, y, WIDTH, HEIGHT, bullet_group, theta=0, color='red'):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.speed = 0
-        self.fixed_speed = 1.5
+        self.screen = screen
+        self.fixed_speed = 1
         self.theta = theta
         self.color = color
         if color == 'dark':
@@ -20,6 +21,8 @@ class Tank(pygame.sprite.Sprite):
         self.screen_h = HEIGHT
         self.bullet_group = bullet_group
         self.reverse_time = pygame.time.get_ticks()  # Initialize reverse timer in __init__
+        self.shoot_time = 0 # stop rapid fire
+        self.shoot_cooldown = 2000 # wait ms before next shot
 
     def deg_to_rad(self, deg):
         # converts deg to rad
@@ -46,11 +49,14 @@ class Tank(pygame.sprite.Sprite):
             self.shoot()
 
     def shoot(self):
-        # make a bullet instance
-        b = Bullet(self.x, self.y, self.theta)
-        # put the bullet in a group
-        self.bullet_group.add(b)
-        
+        # Only shoot after cooldown
+        if pygame.time.get_ticks() - self.shoot_time > self.shoot_cooldown:
+            self.shoot_time = pygame.time.get_ticks()
+            # if we have waited long enough, then make bullet
+            b = Bullet(self.screen, self, self.x, self.y, self.theta)
+            # put the bullet in a group
+            self.bullet_group.add(b)
+
     def check_border(self):
         c_x, c_y = self.rect.center
 
