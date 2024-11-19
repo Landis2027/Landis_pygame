@@ -53,7 +53,7 @@ class Tank(pygame.sprite.Sprite):
     def shoot(self):
         # Only shoot after cooldown
         if pygame.time.get_ticks() - self.shoot_time > self.shoot_cooldown:
-            self.shoot_sound.set_volume(0.2)  # Adjust the volume
+            self.shoot_sound.set_volume(0.1)  # Adjust the volume
             self.shoot_sound.play()
             self.shoot_time = pygame.time.get_ticks()
             # if we have waited long enough, then make bullet
