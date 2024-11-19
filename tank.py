@@ -23,6 +23,8 @@ class Tank(pygame.sprite.Sprite):
         self.reverse_time = pygame.time.get_ticks()  # Initialize reverse timer in __init__
         self.shoot_time = 0 # stop rapid fire
         self.shoot_cooldown = 2000 # wait ms before next shot
+        self.shoot_sound = pygame.mixer.Sound('assets/pop.mp3')
+
 
     def deg_to_rad(self, deg):
         # converts deg to rad
@@ -44,13 +46,15 @@ class Tank(pygame.sprite.Sprite):
             self.theta += 2
         if keys[pygame.K_d]:
             self.theta -= 2
-    
+        
         if keys[pygame.K_SPACE]:
             self.shoot()
 
     def shoot(self):
         # Only shoot after cooldown
         if pygame.time.get_ticks() - self.shoot_time > self.shoot_cooldown:
+            self.shoot_sound.set_volume(0.2)  # Adjust the volume
+            self.shoot_sound.play()
             self.shoot_time = pygame.time.get_ticks()
             # if we have waited long enough, then make bullet
             b = Bullet(self.screen, self, self.x, self.y, self.theta)

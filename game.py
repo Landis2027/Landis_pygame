@@ -5,6 +5,11 @@ from tank import Tank
 
 # pygame setup
 pygame.init()
+pygame.mixer.init()
+
+# load background music
+bg_music = pygame.mixer.Sound('assets/WiiPlayTanksMusic.mp3')
+bg_music.play(-1)
 
 WIDTH = 1280
 HEIGHT = 700
