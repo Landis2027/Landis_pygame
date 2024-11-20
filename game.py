@@ -44,7 +44,8 @@ while running:
     has_collided = pygame.sprite.collide_rect(player1,enemy1)
     
     if has_collided:
-        player1.kill()
+        player1.explode()
+        enemy1.explode()
 
     # Blit the background to the screen
     screen.blit(background,(0,0))
@@ -65,7 +66,7 @@ while running:
                 # check if bullet.tank is the firing tank
                 if b.tank != s:
                     # kill the tank
-                    s.kill()
+                    s.explode()
     # flip() the display to put your work on screen
 
     pygame.display.flip()

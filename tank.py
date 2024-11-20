@@ -24,7 +24,11 @@ class Tank(pygame.sprite.Sprite):
         self.shoot_time = 0 # stop rapid fire
         self.shoot_cooldown = 2000 # wait ms before next shot
         self.shoot_sound = pygame.mixer.Sound('assets/pop.mp3')
-
+        # load up explosion images
+        self.explosion_image = pygame.image.load('assets/explosionSmoke3.png')
+        self.explosion_image = pygame.transform.scale_by(self.explosion_image, 6)
+        self.explosion_timer = 0
+        self.explosion_length = 500
 
     def deg_to_rad(self, deg):
         # converts deg to rad
@@ -77,7 +81,14 @@ class Tank(pygame.sprite.Sprite):
         elif c_y < 0:  # Ceiling
             self.y = 0
             self.speed = 0  # Stop movement
-        
+    
+    def explode(self):
+        # if the timer is already set, do nothing
+        self.speed = 0
+        if self.explosion_timer ==0:
+            # start a timer so that it gets killed later
+            self.explosion_timer = pygame.time.get_ticks()
+            self.speed = 0
 
     def update(self):
         if self.color =='dark':   
@@ -98,3 +109,18 @@ class Tank(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = (self.x, self.y))
 
         self.check_border()
+
+          # check explosion
+        if self.explosion_timer != 0:
+            delta_time = pygame.time.get_ticks() - self.explosion_timer
+            # if time kill, kill kill tank
+            if delta_time >= self.explosion_length:
+                self.kill()
+            # execute explosion
+            if delta_time < (self.explosion_length/2):
+                # grow the explosion
+                self.orig_image = pygame.transform.scale_by(self.explosion_image, delta_time/1000)
+            else:
+                # shrink the explosion
+                self.orig_image = pygame.transform.scale_by(self.explosion_image, self.explosion_length/1000 - (delta_time - self.explosion_length/2)/1000)
+
