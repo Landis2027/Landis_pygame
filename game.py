@@ -1,6 +1,7 @@
 import pygame
 from helpers import build_background
 from tank import Tank
+from enemytank import EnemyTank
 
 # pygame setup
 pygame.init()
@@ -24,8 +25,8 @@ background = build_background(WIDTH, HEIGHT)
 tank_group = pygame.sprite.Group()
 bullet_group = pygame.sprite.Group()
 
-player1 = Tank(screen, WIDTH/2, HEIGHT/2, WIDTH, HEIGHT, bullet_group, color='dark')
-enemy1 = Tank(screen, 400,400, WIDTH, HEIGHT, bullet_group, color='red')
+player1 = Tank(screen, 100, 100, WIDTH, HEIGHT, bullet_group, color='dark')
+enemy1 = EnemyTank(player1, screen, WIDTH-50, HEIGHT-50, WIDTH, HEIGHT, bullet_group, color='red')
 
 # add our sprite to the sprite group
 tank_group.add(player1)
@@ -44,7 +45,6 @@ while running:
     has_collided = pygame.sprite.collide_rect(player1,enemy1)
     
     if has_collided:
-        player1.explode()
         enemy1.explode()
 
     # Blit the background to the screen

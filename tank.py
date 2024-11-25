@@ -1,6 +1,7 @@
 from math import cos, sin, pi
 import pygame
 from bullet import Bullet
+
 class Tank(pygame.sprite.Sprite):
     def __init__(self, screen, x, y, WIDTH, HEIGHT, bullet_group, theta=0, color='red'):
         pygame.sprite.Sprite.__init__(self)
@@ -15,6 +16,7 @@ class Tank(pygame.sprite.Sprite):
             self.orig_image = pygame.image.load('assets/tank_dark.png')
         else:
             self.orig_image = pygame.image.load('assets/tank_red.png')
+            color == 'red'
         self.image = self.orig_image # keep orig image to never be rotated
         self.rect = self.image.get_rect()
         self.screen_w = WIDTH
@@ -90,9 +92,14 @@ class Tank(pygame.sprite.Sprite):
             self.explosion_timer = pygame.time.get_ticks()
             self.speed = 0
 
+    def track_player(self):
+        pass
+
     def update(self):
         if self.color =='dark':   
             self.check_keys()  
+        else:
+            pass
         # get x and y components of speed
         theta_rad = self.deg_to_rad(self.theta)
         x_dot = cos(theta_rad) * self.speed
