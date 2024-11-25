@@ -130,4 +130,3 @@ class Tank(pygame.sprite.Sprite):
             else:
                 # shrink the explosion
                 self.orig_image = pygame.transform.scale_by(self.explosion_image, self.explosion_length/1000 - (delta_time - self.explosion_length/2)/1000)
-

@@ -22,6 +22,7 @@ class Bullet(pygame.sprite.Sprite):
         self.bounce_count = 0  # Ricochet counter
         self.screen_rect = screen.get_rect()
         self.tank = tank
+
     def update(self):
         # Calculate the change in x and y based on the current angle (theta)
         dx = self.speed * cos(radians(self.theta))
