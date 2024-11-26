@@ -2,7 +2,7 @@ import pygame
 from math import sin, cos, radians
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, screen, tank, x, y, theta, speed=5, WIDTH=1280, HEIGHT=700):
+    def __init__(self, screen, tank, x, y, theta, speed=2, WIDTH=1280, HEIGHT=700):
         pygame.sprite.Sprite.__init__(self)
         self.screen = screen  # Store screen reference 
         self.tank = tank  # Store tank reference 

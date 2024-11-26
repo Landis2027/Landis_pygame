@@ -16,7 +16,7 @@ class EnemyTank(Tank):
     def __init__(self, player, screen, x, y, WIDTH, HEIGHT, bullet_group, theta=270, color='red'):
         super().__init__(screen, x, y, WIDTH, HEIGHT, bullet_group, theta, color)
         self.player = player
-        self.speed = 0.4  # Set the enemy speed
+        self.speed = 0.25  # Set the enemy speed
         self.shoot_time = 0  # Timer for shooting
         self.shoot_cooldown = 2000  # 2-second cooldown for shooting
 
