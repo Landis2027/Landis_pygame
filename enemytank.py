@@ -3,27 +3,32 @@ import pygame
 from tank import Tank
 from bullet import Bullet
 
+def normalize_angle(angle):
+    """Normalize angle to be between 0 and 360 degrees."""
+    while angle < 0:
+        angle += 360
+    while angle >= 360:
+        angle -= 360
+    return angle
+
+
 class EnemyTank(Tank):
     def __init__(self, player, screen, x, y, WIDTH, HEIGHT, bullet_group, theta=270, color='red'):
-        # Initialize with the player tank, as the enemy needs to track it
         super().__init__(screen, x, y, WIDTH, HEIGHT, bullet_group, theta, color)
-        self.player = player  # The enemy needs to track the player
+        self.player = player
         self.speed = 0.4  # Set the enemy speed
-        self.shoot_time = 0  # Timer for shooting (to prevent rapid firing)
+        self.shoot_time = 0  # Timer for shooting
         self.shoot_cooldown = 2000  # 2-second cooldown for shooting
 
     def track_player(self):
-        # Track the player tank's position
+        # Calculate the angle to the player
         player_x, player_y = self.player.x, self.player.y
         delta_x = player_x - self.x
         delta_y = player_y - self.y
 
-        # Calculate the angle to face the player using atan2 (in radians)
+        # Calculate the angle to the player using atan2 (in degrees)
         angle_to_player = degrees(atan2(-delta_y, delta_x))
-
-        # Ensure the angle is within a sensible range
-        if angle_to_player < 0:
-            angle_to_player += 360
+        angle_to_player = normalize_angle(angle_to_player)
 
         # Smoothly rotate the tank towards the player
         angle_diff = (angle_to_player - self.theta) % 360
@@ -46,13 +51,15 @@ class EnemyTank(Tank):
     def update(self):
         # Track the player and update movement
         self.track_player()
-        super().update()  # Update image, position, and collision checks
+        super().update()  # Update the image, position, and collision checks
 
-        # Check if the enemy is facing the player and the cooldown has passed
+        # Normalize angle for comparison
         angle_to_player = degrees(atan2(-(self.player.y - self.y), (self.player.x - self.x)))
-        if abs(self.theta - angle_to_player) < 5:  # If it's pointed at the player
-            # Shoot if enough time has passed (2 seconds cooldown)
-            if pygame.time.get_ticks() - self.shoot_time > self.shoot_cooldown:
+        angle_to_player = normalize_angle(angle_to_player)
+
+        # Shoot if the enemy is facing the player (allow small angle range for shooting)
+        if abs(self.theta - angle_to_player) < 5:  # If the tank is pointed at the player
+            if pygame.time.get_ticks() - self.shoot_time > self.shoot_cooldown:  # Check cooldown
                 self.shoot()
 
     def shoot(self):

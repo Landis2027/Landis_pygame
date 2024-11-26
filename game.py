@@ -41,11 +41,6 @@ while running:
 
     tank_group.update()
     bullet_group.update()
-    # check for collision
-    has_collided = pygame.sprite.collide_rect(player1,enemy1)
-    
-    if has_collided:
-        enemy1.explode()
 
     # Blit the background to the screen
     screen.blit(background,(0,0))
