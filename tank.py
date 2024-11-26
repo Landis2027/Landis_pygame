@@ -49,9 +49,9 @@ class Tank(pygame.sprite.Sprite):
             self.speed = 0  # Stop if no movement key is pressed
         # check a, d theta left/right
         if keys[pygame.K_a]:
-            self.theta += 2
+            self.theta += 3
         if keys[pygame.K_d]:
-            self.theta -= 2
+            self.theta -= 3
         
         if keys[pygame.K_SPACE]:
             self.shoot()

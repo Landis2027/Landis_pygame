@@ -40,7 +40,7 @@ def spawn_tanks(WIDTH, HEIGHT, num_tanks, enemy_group):
     for i in range(current_tanks, min(num_tanks[0], max_tanks)):
         x = random.randint(0, WIDTH)
         y = random.randint(0, HEIGHT)
-        enemy = EnemyTank(player1, screen, x, y, WIDTH-50, HEIGHT-50, bullet_group, color='red')
+        enemy = EnemyTank(player1, screen, x, y, WIDTH, HEIGHT, bullet_group, color='red')
         enemy_group.add(enemy)
 
 # add our sprite to the sprite group
