@@ -36,7 +36,7 @@ enemy1 = EnemyTank(player1, screen, WIDTH-50, HEIGHT-50, WIDTH, HEIGHT, bullet_g
 def spawn_tanks(WIDTH, HEIGHT, num_tanks, enemy_group):
     # spawn more tanks if needed, with a limit
     current_tanks = len(enemy_group)
-    max_tanks = 10  # Limit the maximum number of enemy tanks
+    max_tanks = 20  # Limit the maximum number of enemy tanks
     for i in range(current_tanks, min(num_tanks[0], max_tanks)):
         x = random.randint(0, WIDTH)
         y = random.randint(0, HEIGHT)
