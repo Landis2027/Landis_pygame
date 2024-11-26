@@ -47,5 +47,5 @@ class Bullet(pygame.sprite.Sprite):
             self.bounce_count += 1
         
         # If the bullet has ricocheted twice, remove it
-        if self.bounce_count > 0:
+        if self.bounce_count > 1:
             self.kill()  # This removes the bullet from all sprite groups

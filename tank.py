@@ -24,7 +24,7 @@ class Tank(pygame.sprite.Sprite):
         self.bullet_group = bullet_group
         self.reverse_time = pygame.time.get_ticks()  # Initialize reverse timer in __init__
         self.shoot_time = 0 # stop rapid fire
-        self.shoot_cooldown = 2000 # wait ms before next shot
+        self.shoot_cooldown = 1000 # wait ms before next shot
         self.shoot_sound = pygame.mixer.Sound('assets/pop.mp3')
         # load up explosion images
         self.explosion_image = pygame.image.load('assets/explosionSmoke3.png')
