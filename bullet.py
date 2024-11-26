@@ -2,7 +2,7 @@ import pygame
 from math import sin, cos, radians
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, screen, tank, x, y, theta, speed=2, WIDTH=1280, HEIGHT=700):
+    def __init__(self, screen, tank, x, y, theta, speed=3, WIDTH=1280, HEIGHT=700):
         pygame.sprite.Sprite.__init__(self)
         self.screen = screen  # Store screen reference 
         self.tank = tank  # Store tank reference 
@@ -47,5 +47,5 @@ class Bullet(pygame.sprite.Sprite):
             self.bounce_count += 1
         
         # If the bullet has ricocheted twice, remove it
-        if self.bounce_count > 1:
+        if self.bounce_count > 0:
             self.kill()  # This removes the bullet from all sprite groups

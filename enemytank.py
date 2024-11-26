@@ -18,7 +18,7 @@ class EnemyTank(Tank):
         self.player = player
         self.speed = 0.25  # Set the enemy speed
         self.shoot_time = 0  # Timer for shooting
-        self.shoot_cooldown = 2000  # 2-second cooldown for shooting
+        self.shoot_cooldown = 4000  # 4-second cooldown for shooting
 
     def track_player(self):
         # Calculate the angle to the player

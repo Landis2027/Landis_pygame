@@ -9,7 +9,7 @@ class Tank(pygame.sprite.Sprite):
         self.y = y
         self.speed = 0
         self.screen = screen
-        self.fixed_speed = 2
+        self.fixed_speed = 3
         self.theta = theta
         self.color = color
         if color == 'dark':
