@@ -112,7 +112,7 @@ class Tank(pygame.sprite.Sprite):
 
     
     # now rotate the image and drew new rect
-        self.image = pygame.transform.rotozoom(self.orig_image, self.theta - 270, 0.5)
+        self.image = pygame.transform.rotozoom(self.orig_image, self.theta - 270, 0.4)
         self.rect = self.image.get_rect(center = (self.x, self.y))
 
         self.check_border()
