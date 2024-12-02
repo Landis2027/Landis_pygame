@@ -29,6 +29,15 @@ start_time = pygame.time.get_ticks()
 player_alive = True
 last_update_time = start_time  # Track when the score was last updated
 
+#Screenshot code
+from datetime import datetime
+
+def take_screenshot(screen):
+    fn = datetime.now().strftime('%d_%m_%y_%H%M%S.png')
+    # take a screenshot
+    pygame.image.save(screen, f'screenshots/{fn}')
+#End screenshot code
+
 #Run the clock
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
@@ -163,9 +172,14 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                take_screenshot(screen)
     if event.type == pygame.KEYDOWN and player_alive == False:
             if event.key == pygame.K_ESCAPE:  # If ESC is pressed, quit the game
                 running = False
+
+
 
     if player_alive:
         # Update player and enemy
@@ -192,7 +206,7 @@ while running:
 
             # Award 10 points for each second the player is alive
             if (current_time - last_update_time) >= 1000:  # 1000 ms = 1 second
-                score[0] += 10  # Award 10 points
+                score[0] += 5  # Award 5 points
                 last_update_time = current_time  # Update the last update time to the current time
 
         player_group.draw(screen)
