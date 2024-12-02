@@ -24,7 +24,12 @@ burgundy = pygame.Color('#800020')
 WIDTH = 1280
 HEIGHT = 700
 
-#Run the timer
+#Get time in milliseconds for time score functionality and init player_alive
+start_time = pygame.time.get_ticks() 
+player_alive = True
+last_update_time = start_time  # Track when the score was last updated
+
+#Run the clock
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
 running = True
@@ -63,6 +68,33 @@ spawn_tanks(WIDTH, HEIGHT, num_tanks, enemy_group)
 score = [0]
 score_font = pygame.font.Font('assets/BebasNeue-Regular.ttf',size=50)
 
+#GAME OVER SCREEN FUNC_______________________________________________________________________________
+def game_over_screen(score):
+    screen.fill(jet)
+    game_over_text = 'GAME OVER'
+    final_score_text = f'Final Score: {score[0]}'
+    
+    font = pygame.font.Font('assets/BebasNeue-Regular.ttf', size=60)
+    small_font = pygame.font.Font('assets/BebasNeue-Regular.ttf', size=40)
+
+    # Render the 'game over' text
+    game_over_surface = font.render(game_over_text, True, white)
+    game_over_rect = game_over_surface.get_rect(center=(WIDTH // 2, HEIGHT // 3))
+    screen.blit(game_over_surface, game_over_rect)
+
+    # Render the final score text
+    final_score_surface = small_font.render(final_score_text, True, rose_quartz)
+    final_score_rect = final_score_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    screen.blit(final_score_surface, final_score_rect)
+
+    # Prompt to press any key to restart or quit
+    prompt_text = "Press ESC to quit"
+    prompt_surface = small_font.render(prompt_text, True, white)
+    prompt_rect = prompt_surface.get_rect(center=(WIDTH // 2, HEIGHT // 1.5))
+    screen.blit(prompt_surface, prompt_rect)
+
+    pygame.display.flip()
+
 #INSTRUCTION_______________________________________________________________________________________
 
 def make_instructions(screen):
@@ -74,7 +106,7 @@ def make_instructions(screen):
         'Use W to move tank forward',
         'S to move backward',
         'A to rotate left',
-        'D to rotate right'
+        'D to rotate right',
         'Press Spacebar to shoot a bullet',
         'Press P to take a screenshot',
         '',
@@ -131,42 +163,67 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    if event.type == pygame.KEYDOWN and player_alive == False:
+            if event.key == pygame.K_ESCAPE:  # If ESC is pressed, quit the game
+                running = False
 
-    player_group.update()
-    enemy_group.update()
-    bullet_group.update()
+    if player_alive:
+        # Update player and enemy
+        player_group.update()
+        enemy_group.update()
+        bullet_group.update()
 
-    # Blit the background to the screen
-    screen.blit(background,(0,0))
+        # Blit the background to the screen
+        screen.blit(background, (0, 0))
 
-    spawn_tanks(WIDTH, HEIGHT, num_tanks, enemy_group)
+        spawn_tanks(WIDTH, HEIGHT, num_tanks, enemy_group)
 
-    player_group.draw(screen)
-    enemy_group.draw(screen)
-    bullet_group.draw(screen)
+        score_text = f"Score: {score[0]}"
+        score_surface = score_font.render(score_text, 1, burgundy)
+        score_rect = score_surface.get_rect()
+        score_rect.topleft = (0, 0)
+        screen.blit(score_surface, score_rect)
 
+        if player_alive:
+            # Grab the time
+            current_time = pygame.time.get_ticks()
+            # time in seconds
+            sec_time = (current_time - start_time) // 1000  # Elapsed time in seconds
 
-# Check for bullets fired by the player hitting enemy tanks
-    coll_dict = pygame.sprite.groupcollide(enemy_group, bullet_group, False, False)
-    for tank, bullets in coll_dict.items():
-        for bullet in bullets:
-            if bullet.tank == player1:  # Bullet fired by the player
-                tank.explode()
-                bullet.kill()
-                num_tanks[0] += 1  # Increment enemy tank count
+            # Award 10 points for each second the player is alive
+            if (current_time - last_update_time) >= 1000:  # 1000 ms = 1 second
+                score[0] += 10  # Award 10 points
+                last_update_time = current_time  # Update the last update time to the current time
 
-    # Check for bullets hitting the player (any bullet from enemy tanks)
-    coll_dict = pygame.sprite.groupcollide(player_group, bullet_group, False, False)
-    for tank, bullets in coll_dict.items():
-        for bullet in bullets:
-            if bullet.tank != player1:  # Bullet not fired by the player (i.e., fired by an enemy)
-                tank.explode()
-                bullet.kill()
+        player_group.draw(screen)
+        enemy_group.draw(screen)
+        bullet_group.draw(screen)
 
-    # flip() the display to put your work on screen
+        # Check for bullets fired by the player hitting enemy tanks
+        coll_dict = pygame.sprite.groupcollide(enemy_group, bullet_group, False, False)
+        for tank, bullets in coll_dict.items():
+            for bullet in bullets:
+                if bullet.tank == player1:  # Bullet fired by the player
+                    tank.explode()
+                    bullet.kill()
+                    num_tanks[0] += 1  # Increment enemy tank count
+                    score[0] += 100
 
-    pygame.display.flip()
+        # Check for bullets hitting the player (any bullet from enemy tanks)
+        coll_dict = pygame.sprite.groupcollide(player_group, bullet_group, False, False)
+        for tank, bullets in coll_dict.items():
+            for bullet in bullets:
+                if bullet.tank != player1:  # Bullet not fired by the player (i.e., fired by an enemy)
+                    tank.explode()
+                    bullet.kill()
+                    player_alive = False  # Player is dead, stop the timer
 
+        # Flip display to put your work on screen
+        pygame.display.flip()
+
+    else:
+        # Display the game over screen
+        game_over_screen(score)
 
     clock.tick(60)  # limits FPS to 60
 
