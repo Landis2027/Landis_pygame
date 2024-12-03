@@ -3,7 +3,7 @@
 ## Screenshots
 ![screenshot](screenshots/02_12_24_185504.png)
 ![screenshot](screenshots/02_12_24_185219.png)
-![screenshot](screenshots\02_12_24_185531.png)
+![screenshot](screenshots/02_12_24_185531.png)
 
 ## Installation
 1. Install pygame `pip3 install pygame`
